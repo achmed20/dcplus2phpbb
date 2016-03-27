@@ -17,7 +17,5 @@ Usage
 -----
 ./dcconvert.php [SOURCE DSN] [TARGET DSN]
 
-start like this!
-	./dcconvert.php \
-		mysql://admin:admin@192.168.12.111:3306/dc2 \
-		mysql://admin:admin@192.168.12.111:3306/phpbb
+start like this:
+	./dcconvert.php mysql://admin:admin@192.168.12.111:3306/dc2 mysql://admin:admin@192.168.12.111:3306/phpbb
