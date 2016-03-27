@@ -1,2 +1,2 @@
 use dcold;
-source dump.sql;
+source /data/sql/dump.sql;
