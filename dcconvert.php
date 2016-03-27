@@ -1,10 +1,21 @@
+#!/usr/bin/php
 <?php
-
+error_reporting(0);
 include "include/class.db.php";
 
+	// var_dump($argv);
+	// exit;
 
-$odb = new DB("192.168.12.111", "admin", "admin", "dc2", 3306);
-$ndb = new DB("192.168.12.111", "admin", "admin", "phpbb", 3306);
+if(!$argv[1] || !$argv[2]) {
+	die("parameters!\ncall like this: \n./dcconvert.php mysql://admin:admin@192.168.12.111:3306/dc2 mysql://admin:admin@192.168.12.111:3306/phpbb\n");
+}
+
+$source = parse_url($argv[1]);
+$target = parse_url($argv[2]);
+
+
+$odb = new DB($source["host"], $source["user"], $source["pass"], substr($source["path"], 1), $source["port"]);
+$ndb = new DB($target["host"], $target["user"], $target["pass"], substr($target["path"], 1), $target["port"]);
 
 $ndb->query("ALTER TABLE `phpbb_topics` ADD COLUMN `dc_old_id` INT UNSIGNED NULL");
 $ndb->query("ALTER TABLE `phpbb_posts` ADD COLUMN `dc_old_id` INT UNSIGNED NULL");
