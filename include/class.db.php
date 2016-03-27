@@ -174,9 +174,9 @@ class DB
     {
         // FIXME: add MYSQL_CLIENT_SSL as mysql flag to enable SSL (EBE)
         if ($this->permanent && !$force_temp_connect) {
-            $this->conn = mysql_pconnect($this->host, $this->user, $this->pass, $this->new_connection);
+            $this->conn = mysql_pconnect($this->host.":".$this->port, $this->user, $this->pass, $this->new_connection);
         } else {
-            $this->conn = mysql_connect($this->host, $this->user, $this->pass, $this->new_connection);
+            $this->conn = mysql_connect($this->host.":".$this->port, $this->user, $this->pass, $this->new_connection);
         }
 
         if (!$this->conn && $this->fallback) {
