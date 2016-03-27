@@ -17,7 +17,7 @@ start like this:
 
         ./dcconvert.php mysql://admin:admin@192.168.12.111:3306/dc2 mysql://admin:admin@192.168.12.111:3306/phpbb
 
-After the conversion you need to set the propper rights for each forum (probably just copy them from the default forum) and refresh each forum. Otherwhise it wont phpBB wont show you any post, counts, answers etc. refresh migh need to be done multiple times
+After the conversion you need to set the propper rights for each forum (probably just copy them from the default forum) and refresh each forum. Otherwhise it wont phpBB wont show you any post, counts, answ+ers etc. refresh migh need to be done multiple times
 
 notes
 -----
