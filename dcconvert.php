@@ -1,6 +1,6 @@
 <?php
 
-include "class.db.php";
+include "include/class.db.php";
 
 
 $odb = new DB("192.168.12.111", "admin", "admin", "dc2", 3306);
