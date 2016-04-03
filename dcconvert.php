@@ -33,7 +33,7 @@ $odb->query('select
 				 username as f4,
 				 lower(username) as f5,
 				 email as f6,
-				 "en" as f7,
+				 "de" as f7,
 				 "UTC" as f8,
 				  "D M d, Y g:i a" as f9 
 			from dcuser where not username="admin"');
