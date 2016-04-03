@@ -42,7 +42,10 @@ while($row = $odb->next_array(true)) {
 }
 $ndb->query("insert into phpbb_user_group select group_id, user_id,0,0 from phpbb_users where user_id>100");
 $ndb->query("update phpbb_users set user_email_hash = concat(crc32(lower(user_email)), length(user_email))");
+
 // exit;
+
+
 
 // ------------------ forums 
 echo "Import Forums\n";
@@ -53,12 +56,24 @@ $odb->query('SELECT
 				description as f3,
 				1 as f4,
 				id as f5,
-				id+1 as f6 
+				id+2 as f6 
 			FROM dcforum');
 $sql = "insert ignore into phpbb_forums (forum_id, parent_id, forum_name, forum_desc, forum_type, left_id, right_id)";
 while($row = $odb->next_array(true)) {
 	$ndb->query($sql.prepareValues($row));
 }
+//fix fucking LEFT_Right ID
+$ndb->query('select forum_id from phpbb_forums where parent_id=0 and forum_id>1 order by forum_id asc ');
+$forums = $ndb->getAll();
+foreach($forums as $f) {
+	echo "fixing {$f->forum_id}\n";
+	$ndb->query("SELECT forum_id from phpbb_forums where forum_id>{$f->forum_id} and parent_id=0 order by forum_id asc limit 1");
+	if($row = $ndb->next()) {
+		$ndb->query("update phpbb_forums set right_id={$row->forum_id} where forum_id={$f->forum_id}");
+	}
+}
+// exit;
+
 
 // exit;
 // ------------- forums
