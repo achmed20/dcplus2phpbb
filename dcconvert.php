@@ -17,6 +17,9 @@ $target = parse_url($argv[2]);
 $odb = new DB($source["host"], $source["user"], $source["pass"], substr($source["path"], 1), $source["port"]);
 $ndb = new DB($target["host"], $target["user"], $target["pass"], substr($target["path"], 1), $target["port"]);
 
+$odb->query("SET NAMES utf8");
+$ndb->query("SET NAMES utf8");
+
 $ndb->query("ALTER TABLE `phpbb_topics` ADD COLUMN `dc_old_id` INT UNSIGNED NULL");
 $ndb->query("ALTER TABLE `phpbb_posts` ADD COLUMN `dc_old_id` INT UNSIGNED NULL");
 
