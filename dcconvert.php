@@ -90,7 +90,7 @@ while($row = $odb->next_array(true)) {
 }
 
 // $flist = array();
-// $flist[] = "300";
+// $flist[] = "302";
 foreach($flist as $mesg){
 	echo "Import forum $mesg\n";
 

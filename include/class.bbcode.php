@@ -83,7 +83,7 @@ class bbcode {
 									 '#\[youtube]http://[a-z]{0,3}.youtube.com/watch\?v=([0-9a-zA-Z]{1,11})\[/youtube]#Usi',
 									 '#\[youtube]([0-9a-zA-Z]{1,11})\[/youtube]#Usi',
 									 '#(http[s]{0,1}\:\/\/\S{4,})(\.jpg)#Usi',
-									 '#[^"](http[s]{0,1}\:\/\/\S{4,}) #Usi'
+									 '/[^"](http[s]?:\/\/[^\s]+)/is'
 			);
 			/**
 			 * This array contains the advanced static bbcode's html
@@ -91,7 +91,7 @@ class bbcode {
 			 */
 			$advanced_html = array(
 									 '<span style="color: $1">$2</span>',
-									 '<span style="font-size: $1px">$2</span>',
+									 '<span style="font-size: 1.$1em">$2</span>',
 									 "<div class=\"quote\"><span class=\"quoteby\">Disse:</span>\r\n$2</div>",
 									 "<div class=\"quote\"><span class=\"quoteby\">Disse <b>$1</b>:</span>\r\n$3</div>",
 									 '<a rel="nofollow" target="_blank" href="$1">$1</a>',
@@ -103,8 +103,8 @@ class bbcode {
 									 '<div class="code">$2</div>',
 									 '<object type="application/x-shockwave-flash" style="width: 450px; height: 366px;" data="http://www.youtube.com/v/$1"><param name="movie" value="http://www.youtube.com/v/$1" /><param name="wmode" value="transparent" /></object>',
 									 '<object type="application/x-shockwave-flash" style="width: 450px; height: 366px;" data="http://www.youtube.com/v/$1"><param name="movie" value="http://www.youtube.com/v/$1" /><param name="wmode" value="transparent" /></object>',
-                                                                         '<img src="$1$2" />',
-                                                                         '<a href="$1" target="_blank">$1</a>'
+                                                                         ' <img src="$1$2" class="postimage" alt="image" /> ',
+                                                                         ' <a class="postlink" href="$1" target="_blank">$1</a> '
 			);
 			$text = preg_replace($advanced_bbcode, $advanced_html,$text);
 		}
@@ -128,6 +128,7 @@ class bbcode {
 	 */
 	public static function nl2br($var)
 	{
-		return str_replace(array('\\r\\n','\r\\n','r\\n','\r\n', '\n', '\r'), '<br />', nl2br($var));
+		#return str_replace(array('\\r\\n','\r\\n','r\\n','\r\n', '\n', '\r'), '<br />', nl2br($var));
+		return $var;
 	}
 }
