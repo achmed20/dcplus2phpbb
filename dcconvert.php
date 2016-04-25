@@ -2,6 +2,7 @@
 <?php
 error_reporting(0);
 include "include/class.db.php";
+include "include/class.bbcode.php";
 
 	// var_dump($argv);
 	// exit;
@@ -127,7 +128,7 @@ foreach($flist as $mesg){
 	$sql = "insert ignore into phpbb_posts (post_id, topic_id, forum_id, post_time, poster_id, post_subject, post_text, post_visibility, dc_old_id)";
 
 	while($row = $odb->next_array(true)) {
-		$ndb->query($sql.prepareValues($row));
+		$ndb->query($sql.prepareValues($row, 6));
 	}
 
 
@@ -147,9 +148,12 @@ $ndb->query("ALTER TABLE `phpbb_posts` DROP COLUMN `dc_old_id`, DROP INDEX `dcol
 
 #####################################################################
 
-function prepareValues($row) {
+function prepareValues($row, $bbfield=-1) {
 	$vals = array();
 	for ($i=0; $i < sizeof($row); $i++) { 
+		if($i==$bbfield) {
+			$row["f".$i] = bbcode::tohtml($row["f".$i],TRUE);
+		}
 		$vals[$i] = "'".db::fix($row["f".$i])."'";
 	}
 	return " VALUES (".implode(",", $vals).")";
