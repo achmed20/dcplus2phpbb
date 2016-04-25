@@ -82,7 +82,7 @@ class bbcode {
 									 '#\[code](\r\n)?(.+?)(\r\n)?\[/code]#si',
 									 '#\[youtube]http://[a-z]{0,3}.youtube.com/watch\?v=([0-9a-zA-Z]{1,11})\[/youtube]#Usi',
 									 '#\[youtube]([0-9a-zA-Z]{1,11})\[/youtube]#Usi',
-									 '#(http[s]{0,1}\:\/\/\S{4,})(\.jpg)#Usi',
+									 '#(http[s]{0,1}\:\/\/\S{4,})\.([jpg|gif|png|jpeg])#Usi',
 									 '/[^"](http[s]?:\/\/[^\s]+)/is'
 			);
 			/**
