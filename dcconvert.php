@@ -122,13 +122,21 @@ foreach($flist as $mesg){
 					subject as f5,
 					message as f6,
 					1 as f7,
-					if(top_id>0, top_id + '.($mesg*100000).', id + '.($mesg*100000).') as f8
+					if(top_id>0, top_id + '.($mesg*100000).', id + '.($mesg*100000).') as f8,
+					attachments as f9
 				FROM '.$mesg.'_mesg');
 
 	$sql = "insert ignore into phpbb_posts (post_id, topic_id, forum_id, post_time, poster_id, post_subject, post_text, post_visibility, dc_old_id)";
 
 	while($row = $odb->next_array(true)) {
-		$ndb->query($sql.prepareValues($row, 6));
+		if($row["f9"]) {	//attachments
+			$row["f6"].= "\n -- Anhänge -- \n";
+			$tmp = explode(",", $row["f9"]);
+			foreach ($tmp as $key => $val) {
+				$row["f6"].="[url=./files/".$val."]Anhang #".($key+1)." (".$val.")[/url]\n";
+			}
+		}
+		$ndb->query($sql.prepareValues($row, 6, 9));
 	}
 
 
@@ -148,13 +156,17 @@ $ndb->query("ALTER TABLE `phpbb_posts` DROP COLUMN `dc_old_id`, DROP INDEX `dcol
 
 #####################################################################
 
-function prepareValues($row, $bbfield=-1) {
+function prepareValues($row, $bbfield=-1, $attachments=-1) {
 	$vals = array();
 	for ($i=0; $i < sizeof($row); $i++) { 
 		if($i==$bbfield) {
 			$row["f".$i] = bbcode::tohtml($row["f".$i],TRUE);
 		}
-		$vals[$i] = "'".db::fix($row["f".$i])."'";
+		if($i==$attachments) {
+			// $vals[$i] = "'".db::fix($row["f".$i])."'";
+		} else {
+			$vals[$i] = "'".db::fix($row["f".$i])."'";
+		}
 	}
 	return " VALUES (".implode(",", $vals).")";
 
